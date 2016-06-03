@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^dashboard', include('dashboard.urls')),
+    url(r'^webhook', webhook.views.webhook),
 ]
