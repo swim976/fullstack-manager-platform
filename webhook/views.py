@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import system
+import os
 
 __author__ = 'haofly'
 __datetime__ = '2016-06-03 16:40:00'
