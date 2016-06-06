@@ -39,6 +39,4 @@ def sendGitCommitSMS(name, repo, phone=settings.ALIDAYU_PHONE):
         hashlib.md5(parameters_str.encode('utf8')).hexdigest().upper()
 
     re = requests.post(settings.ALIDAYU_URL, headers=headers, data=parameters)
-    result = re.text
-    print(result)
-    print('out')
+    print(re.text)
