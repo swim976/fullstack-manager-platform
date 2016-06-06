@@ -19,7 +19,6 @@ def checkGithub():
     if count != 0:
         print('begin')
         service.sendGitCommitSMS('haofly', 'admin or haoflynet')
-        print('end')
 
 if __name__ == '__main__':
     checkGithub()

@@ -36,7 +36,7 @@ def sendGitCommitSMS(name, repo, phone=settings.ALIDAYU_PHONE):
             settings.ALIDAYU_APP_SECRET,
             str().join('%s%s' % (key, parameters[key]) for key in keys),
             settings.ALIDAYU_APP_SECRET)
-
+    print(parameters)
     parameters['sign'] = \
         hashlib.md5(parameters.encode('utf8')).hexdigest().upper()
 
