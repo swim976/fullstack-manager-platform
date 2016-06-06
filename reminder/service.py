@@ -19,9 +19,9 @@ def sendGitCommitSMS(name, repo, phone=settings.ALIDAYU_PHONE):
         'method': 'alibaba.aliqin.fc.sms.num.send',
         'rec_num': phone,
         'sign_method': "md5",
-        'sms_free_sign_name': settings.ALIDAYU_sms_free_sign_name,
+        'sms_free_sign_name': settings.ALIDAYU_SMS_FREE_SIGN_NAME,
         'sms_param': '{"name":"' + name + '","repo":"' + repo + '"}',
-        'sms_template_code': settings.ALIDAYU_sms_template_code,
+        'sms_template_code': settings.ALIDAYU_SMS_TEMPLATE_CODE,
         'sms_type': 'normal',
         'timestamp': timestamp,
         'v': '2.0'
