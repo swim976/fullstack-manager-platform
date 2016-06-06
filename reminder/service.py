@@ -7,6 +7,7 @@ from django.conf import settings
 
 def sendGitCommitSMS(name, repo, phone=settings.ALIDAYU_PHONE):
     '''通过阿里大鱼发送repo提交提醒'''
+    print('enter')
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
     }
@@ -41,3 +42,4 @@ def sendGitCommitSMS(name, repo, phone=settings.ALIDAYU_PHONE):
 
     re = requests.post(url, headers=headers, data=parameters)
     result = re.text
+    print('out')
