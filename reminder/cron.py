@@ -7,7 +7,7 @@ __description__ = '各种定时任务'
 
 
 def checkGithub():
-    '''检查github当日是否有commit'''
+    '''git提醒'''
     today = str(datetime.date.today())
     r = requests.get('https://github.com/haoflynet')
     match = re.search(
@@ -16,8 +16,8 @@ def checkGithub():
 
     count = int(match.group('count'))    # 当天提交数
 
-    if count != 0:
-        service.sendGitCommitSMS('', '', '')
+    if count == 0:
+        service.sendGitCommitSMS('haofly', 'admin or haoflynet')
 
 if __name__ == '__main__':
     checkGithub()
