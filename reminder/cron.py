@@ -2,7 +2,7 @@
 import datetime
 import re
 import requests
-import service
+from . import service
 __description__ = '各种定时任务'
 
 
