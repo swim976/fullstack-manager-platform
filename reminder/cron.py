@@ -17,7 +17,7 @@ def checkGithub():
     count = int(match.group('count'))    # 当天提交数
 
     if count != 0:
-        service.sendGitCommitSMS('haofly', 'admin or haoflynet')
+        service.sendGitCommitSMS('haofly', 'admin project')
 
 if __name__ == '__main__':
     checkGithub()
