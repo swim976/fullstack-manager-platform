@@ -12,7 +12,7 @@ class People(models.Model):
     '''人力资源'''
     name = models.CharField(max_length=10)
     birth_lunar = models.DateField(null=True, '农历生日')
-    birth_new = modles.DateField(null=True', 新历生日')
+    birth_new = modles.DateField(null=True, '新历生日')
     sex = SEX_CHOICES
     phone = models.IntegerField(null=True, '电话号码')
     qq = models.IntegerField(null=True, 'QQ')
