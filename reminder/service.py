@@ -40,3 +40,8 @@ def sendGitCommitSMS(name, repo, phone=settings.ALIDAYU_PHONE):
 
     re = requests.post(settings.ALIDAYU_URL, headers=headers, data=parameters)
     print(re.text)
+
+
+def sendEmail():
+    '''发送邮箱接口'''
+    pass
