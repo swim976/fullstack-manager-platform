@@ -24,3 +24,6 @@ class People(models.Model):
     job = models.CharField('职位', max_length=10, null=True)
     relation = models.CharField('关系', max_length=10, null=True)
     beta = models.CharField('备注', max_length=100, null=True)
+
+    def __str__(self):
+        return self.name
