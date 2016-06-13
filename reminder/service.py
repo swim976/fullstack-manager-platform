@@ -65,6 +65,7 @@ def sendEmail(
     smtpObj.sendmail(sender, receivers, message.as_string())
     print('邮件发送成功')
 
+
 def generateBirthEmail(peoples):
     '''生成生日提醒邮件内容'''
     string = '亲，以下是最近快过生日的好友，别忘了送上祝福哟\n'
@@ -83,64 +84,6 @@ def generateBirthEmail(peoples):
         for people in peoples[_i]:
             string += str(people) + '\n'
     return string
-
-def getLunar():
-    '''获取农历日期'''
-    url = 'https://www.baidu.com/s'
-    params = {
-        'ie': 'utf-8',
-        'f': '8',
-        'rsv_bp': '1',
-        'tn': 'baidu',
-        'wd': '今天是农历几月几日',
-        'oq': '今天是农历几月几日',
-        'rsv_pq': 'bf14469c00210a2d',
-        'rsv_t': 'dd6cJS7L8heOZxh2qjKYMqdjYTBoWZq+cM9MUxWIN2Hu3ewz9C8v3fYL2JI',
-        'rqlang': 'cn',
-        'rsv_enter': '1',
-        'rsv_sug3': '1',
-        'rsv_sug1': '1',
-        'rsv_sug7': '100',
-        'bs': '今天是农历几月几日'
-    }
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36'
-    }
-    r = requests.get(url, params=params, headers=headers)
-    match = re.search('<div class="op-calendar-title c-gray">万年历</div>([\s\S]*?)<span>([\s\S]*?)<span>(?P<date>[\s\S]*?)</span>', r.text)
-    date = match.group('date') \
-                .replace(' ', '').replace('\n', '').split('农历')[1]
-    month, day = date.split('月')
-    months = [
-            '农历月', '一', '二', '三', '四', '五', '六',
-            '七', '八', '九', '十', '十一', '十二']
-    days = [
-            '农历天', '初一', '初二', '初三', '初四', '初五', '初六', '初七',
-            '初八', '初九', '初十', '十一', '十二', '十三', '十四', '十五', '十六',
-            '十七', '十八', '十九', '二十', '廿一', '廿二', '廿三', '廿四', '廿五',
-            '廿六', '廿七', '廿八', '廿九', '三十']
-    return int(months.index(month)), int(days.index(day))
-
-def getNextDate(month, day, next):
-    '''获取接下来几天的日期，特殊需要，没有用datetime，不过next小于7，下一个闰年在2020年,so'''
-    day = day + next
-    if month in [1, 3, 5, 7, 8, 10, 12]:
-        if(day > 31):
-            day -= 31
-            month += 1
-    elif month == 2:
-        if(day > 28):
-            day -= 28
-            month += 1
-    else:
-        if(day > 30):
-            day -= 30
-            month += 1
-    if month > 12:
-        month = 1
-
-    return month, day
-
 
 if __name__ == '__main__':
     sendEmail()
