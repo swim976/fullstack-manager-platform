@@ -5,6 +5,7 @@ import requests
 from people.models import People
 from django.db.models import Q
 from . import service
+from lunardate import LunarDate
 __description__ = '各种定时任务'
 
 
@@ -24,18 +25,23 @@ def checkGithub():
 
 def checkBirth():
     '''查询明天生日的人，百度查询，今天是农历几月几日'''
-    old_month, old_day = service.getLunar()
-    today = datetime.date.today()
-    new_month, new_day = today.month, today.day
+    new_today = datetime.datetime.now()
+    old_today = LunarDate.today()
+    tomorrow = datetime.timedelta(days=1)
 
-    # 提示最近七天的生日
     peoples = []
     for _i in range(7):
         peoples.append(People.objects.filter(
-            (Q(birth_lunar__month=old_month) & Q(birth_lunar__day=old_day)) |
-            (Q(birth_new__month=new_month) & Q(birth_new__day=new_day))
+            (
+                Q(birth_lunar__month=old_today.month) &
+                Q(birth_lunar__day=old_today.day)
+            ) |
+            (
+                Q(birth_new__month=new_today.month) &
+                Q(birth_new__day=new_today.day)
+            )
         ))
-        old_month, old_day = service.getNextDate(old_month, old_day, 1)
-        new_month, new_day = service.getNextDate(new_month, new_day, 1)
+        new_today += tomorrow
+        old_today += tomorrow
     email = service.generateBirthEmail(peoples)
     service.sendEmail(email, '定时任务-生日提醒')
