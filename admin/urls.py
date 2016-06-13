@@ -1,3 +1,4 @@
+from webhook import views as webhook_view
 """admin URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -20,5 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^dashboard', include('dashboard.urls')),
     url(r'^people', include('people.urls')),
-    url(r'^webhook', 'webhook.views.webhook'),
+    url(r'^webhook', webhook_view.webhook),
 ]
