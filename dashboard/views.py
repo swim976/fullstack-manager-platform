@@ -10,3 +10,7 @@ def index(request):
 
 def login(request):
     return render(request, 'login.html')
+
+
+def peoples(request):
+    return render(request, 'people_list.html')

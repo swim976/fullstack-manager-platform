@@ -19,8 +19,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^dashboard', include('dashboard.urls', namespace='dashboard')),
-    url(r'^people', include('people.urls', namespace='people')),
+    url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
+    url(r'^people/', include('people.urls', namespace='people')),
     url(r'^webhook', webhook_view.webhook),
     url(r'^oauth/', include('oauth.urls', namespace='oauth')),
 ]
