@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-import requests
-import hashlib
-import time
 import re
-import datetime
-from django.conf import settings
+import time
+import random
+import hashlib
 import smtplib
+import requests
+import datetime
+from bs4 import BeautifulSoup
 from email import encoders
-from email.mime.text import MIMEText
 from email.header import Header
+from email.mime.text import MIMEText
+from django.conf import settings
 
 
 def sendGitCommitSMS(name, repo, phone=settings.ALIDAYU_PHONE):
@@ -84,6 +86,59 @@ def generateBirthEmail(peoples):
         for people in peoples[_i]:
             string += str(people) + '\n'
     return string
+
+
+def captureKuaidaili():
+    '''抓取快代理页面'''
+    urls = [
+        'http://www.kuaidaili.com/free/inha/',      # 国内高匿代理
+        'http://www.kuaidaili.com/free/intr/',      # 国内普通代理
+        'http://www.kuaidaili.com/free/outha/',     # 国外高匿代理
+        'http://www.kuaidaili.com/free/outtr/',     # 国外普通代理
+    ]
+    headers = {
+        'Accept': 'text/html,application/xhtml+xml,\
+                                application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4,zh-TW;\
+                                q=0.2,ja;q=0.2',
+        'Upgrade-Insecure-Requests': '1',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) \
+                                AppleWebKit/537.36 (KHTML, like Gecko) \
+                                Chrome/49.0.2623.110 Safari/537.36',
+        'Referer': 'http://www.kuaidaili.com/free/outtr/1/',
+        'Connection': 'keep-alive'
+    }
+    for url in urls:
+        page = 1
+        all_page = 0    # 总的页数
+        headers['Referer'] = url
+        while True:
+            re = requests.get(
+                            settings.SPLASH + url + str(page),
+                            headers=headers)
+            soup = BeautifulSoup(re.content)
+            tbody_tag = soup.find('tbody')
+            for tr_tag in tbody_tag.find_all('tr'):
+                td_tags = tr_tag.find_all('td')
+                data = {
+                    'ip': td_tags[0].string,
+                    'port': td_tags[1].string,
+                    'anonymity': td_tags[2].string,
+                    'http': td_tags[3].string,
+                    'address': td_tags[4].string,
+                }
+                yield data
+
+            # 判断终止条件
+            if all_page == 0:
+                list_nav_tag = soup.find('list_nav')
+                a_tags = list_nav_tag.find_all('a')
+                page_list = [int(a_tag.string) for a_tag in a_tags]
+                all_page = max(page_list)
+            else if page == all_page:
+                break
+            else:
+                page += 1
 
 if __name__ == '__main__':
     sendEmail()
