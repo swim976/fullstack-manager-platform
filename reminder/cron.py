@@ -45,3 +45,8 @@ def checkBirth():
         old_today += tomorrow
     email = service.generateBirthEmail(peoples)
     service.sendEmail(email, '定时任务-生日提醒')
+
+
+def captureProxy():
+    '''抓取快代理的代理'''
+    pass
