@@ -4,7 +4,9 @@ import re
 import requests
 from people.models import People
 from django.db.models import Q
+from django.db.utils import IntegrityError
 from . import service
+from .models import Proxy
 from lunardate import LunarDate
 __description__ = '各种定时任务'
 
@@ -49,4 +51,29 @@ def checkBirth():
 
 def captureProxy():
     '''抓取快代理的代理'''
-    pass
+    data_bulk = []  # 100条插入一次
+    Proxy.objects.bulk_create(data_bulk)
+    for data in service.captureKuaidaili():
+        data_bulk.append(Proxy(
+            site=data['site'],
+            ip=data['ip'],
+            port=data['port'],
+            anonymity=data['anonymity'],
+            http=data['http'],
+            action=data['action'],
+            address=data['address']
+        ))
+
+        if len(data_bulk) == 5:
+            while True:
+                try:
+                    Proxy.objects.bulk_create(data_bulk)
+                except IntegrityError as e:
+                    Duplicate entry '114.96.173.40' for key
+                    # 把这个提取出来删掉即可
+                    print(str(e))
+                break
+            break
+
+            data_bulk = []
+    Proxy.objects.bulk_create(data_bulk)
