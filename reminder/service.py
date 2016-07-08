@@ -113,32 +113,54 @@ def captureKuaidaili():
         all_page = 0    # 总的页数
         headers['Referer'] = url
         while True:
-            re = requests.get(
-                            settings.SPLASH + url + str(page),
-                            headers=headers)
+            retry = 1
+            while True:
+                re = requests.get(
+                                settings.SPLASH + url + str(page),
+                                headers=headers)
+                print(re.url)
+                if 'setTimeout' not in re.text and \
+                        'GlobalTimeoutError' not in re.text:
+                    print('the response content is ok.')
+                    break
+                else:
+                    if retry == 10:
+                        print('retry times too much, fuck this site:' + url)
+                    retry += 1
+                    time.sleep(10)
+
             soup = BeautifulSoup(re.content)
-            tbody_tag = soup.find('tbody')
-            for tr_tag in tbody_tag.find_all('tr'):
+            try:
+                tr_tags = soup.find('tbody').find_all('tr')
+            except AttributeError:
+                print('the tag not found.')
+                print(re.content)
+                break
+
+            for tr_tag in tr_tags:
                 td_tags = tr_tag.find_all('td')
                 data = {
                     'ip': td_tags[0].string,
                     'port': td_tags[1].string,
                     'anonymity': td_tags[2].string,
                     'http': td_tags[3].string,
+                    'action': '',
                     'address': td_tags[4].string,
+                    'site': 'http://www.kuaidaili.com/'
                 }
                 yield data
 
             # 判断终止条件
             if all_page == 0:
-                list_nav_tag = soup.find('list_nav')
+                list_nav_tag = soup.select('div#listnav')[0]
                 a_tags = list_nav_tag.find_all('a')
                 page_list = [int(a_tag.string) for a_tag in a_tags]
                 all_page = max(page_list)
-            else if page == all_page:
+            elif page == all_page:
                 break
             else:
                 page += 1
+
 
 if __name__ == '__main__':
     sendEmail()
