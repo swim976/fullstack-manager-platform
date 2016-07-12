@@ -51,6 +51,19 @@ def checkBirth():
 
 def captureProxy():
     '''抓取快代理的代理'''
+    def bulkWork(data_bulk):
+        while True:
+            if len(data_bulk) == 0:
+                return True
+            try:
+                Proxy.objects.bulk_create(data_bulk)
+                break
+            except IntegrityError as e:
+                match = re.search('Duplicate entry \'(.*?)\'', str(e))
+                duplicate_ip = match.group(1)
+                data_bulk = [
+                    data for data in data_bulk if duplicate_ip != str(data)]
+
     data_bulk = []  # 100条插入一次
     Proxy.objects.bulk_create(data_bulk)
     for data in service.captureKuaidaili():
@@ -64,16 +77,7 @@ def captureProxy():
             address=data['address']
         ))
 
-        if len(data_bulk) == 5:
-            while True:
-                try:
-                    Proxy.objects.bulk_create(data_bulk)
-                except IntegrityError as e:
-                    Duplicate entry '114.96.173.40' for key
-                    # 把这个提取出来删掉即可
-                    print(str(e))
-                break
-            break
-
+        if len(data_bulk) == 50:
+            bulkWork(data_bulk)
             data_bulk = []
-    Proxy.objects.bulk_create(data_bulk)
+    bulkWork(data_bulk)

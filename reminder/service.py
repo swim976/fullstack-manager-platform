@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 import time
+import codecs
 import random
 import hashlib
 import smtplib
@@ -91,9 +92,9 @@ def generateBirthEmail(peoples):
 def captureKuaidaili():
     '''抓取快代理页面'''
     urls = [
-        'http://www.kuaidaili.com/free/inha/',      # 国内高匿代理
-        'http://www.kuaidaili.com/free/intr/',      # 国内普通代理
-        'http://www.kuaidaili.com/free/outha/',     # 国外高匿代理
+        # 'http://www.kuaidaili.com/free/inha/',      # 国内高匿代理
+        # 'http://www.kuaidaili.com/free/intr/',      # 国内普通代理
+        # 'http://www.kuaidaili.com/free/outha/',     # 国外高匿代理
         'http://www.kuaidaili.com/free/outtr/',     # 国外普通代理
     ]
     headers = {
@@ -108,26 +109,32 @@ def captureKuaidaili():
         'Referer': 'http://www.kuaidaili.com/free/outtr/1/',
         'Connection': 'keep-alive'
     }
+    fp = codecs.open('url.txt', 'w', 'utf-8')
     for url in urls:
-        page = 1
+        page = 964
         all_page = 0    # 总的页数
         headers['Referer'] = url
         while True:
+            time.sleep(random.randint(0, 10))
             retry = 1
             while True:
+                fp.write(url + str(page) + '\n')
+                print(url + str(page))
                 re = requests.get(
                                 settings.SPLASH + url + str(page),
                                 headers=headers)
-                print(re.url)
+
                 if 'setTimeout' not in re.text and \
                         'GlobalTimeoutError' not in re.text:
                     print('the response content is ok.')
                     break
                 else:
+                    print(re.text)
                     if retry == 10:
                         print('retry times too much, fuck this site:' + url)
                     retry += 1
-                    time.sleep(10)
+                    time.sleep(random.randint(0, 10))
+            print(url + str(page) + ': finished')
 
             soup = BeautifulSoup(re.content)
             try:
