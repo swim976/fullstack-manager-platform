@@ -95,7 +95,8 @@ def captureKuaidaili():
         # 'http://www.kuaidaili.com/free/inha/',      # 国内高匿代理
         # 'http://www.kuaidaili.com/free/intr/',      # 国内普通代理
         # 'http://www.kuaidaili.com/free/outha/',     # 国外高匿代理
-        'http://www.kuaidaili.com/free/outtr/',     # 国外普通代理
+        # 'http://www.kuaidaili.com/free/outtr/',     # 国外普通代理
+        'http://www.kuaidaili.com/proxylist/',      # 每日更新的IP列表
     ]
     headers = {
         'Accept': 'text/html,application/xhtml+xml,\
@@ -109,17 +110,15 @@ def captureKuaidaili():
         'Referer': 'http://www.kuaidaili.com/free/outtr/1/',
         'Connection': 'keep-alive'
     }
-    fp = codecs.open('url.txt', 'w', 'utf-8')
     for url in urls:
-        page = 964
+        page = 1
         all_page = 0    # 总的页数
         headers['Referer'] = url
         while True:
             time.sleep(random.randint(0, 10))
             retry = 1
             while True:
-                fp.write(url + str(page) + '\n')
-                print(url + str(page))
+                print(url + str(page) + ': begin')
                 re = requests.get(
                                 settings.SPLASH + url + str(page),
                                 headers=headers)
@@ -151,8 +150,8 @@ def captureKuaidaili():
                     'port': td_tags[1].string,
                     'anonymity': td_tags[2].string,
                     'http': td_tags[3].string,
-                    'action': '',
-                    'address': td_tags[4].string,
+                    'action': td_tags[4].string,           # 每日更新这里对应位置不一样
+                    'address': td_tags[5].string,           # 每日更新这里对应位置不一样
                     'site': 'http://www.kuaidaili.com/'
                 }
                 yield data
