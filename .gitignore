@@ -63,3 +63,6 @@ target/
 db.sqlite3
 settings.py
 0001_initial.py
+
+# test mysql data
+mysqldata/
