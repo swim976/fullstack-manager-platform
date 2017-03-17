@@ -66,3 +66,4 @@ settings.py
 
 # test mysql data
 mysqldata/
+settings_secret.py

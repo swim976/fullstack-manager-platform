@@ -26,11 +26,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'dashboard',    # 管理界面
-    'oauth',        # 认证中心
-    'people',     # 通讯录管理
-    'reminder',     # 提醒器
-    'downloader'    # 下载器
+    'django_crontab',   # django-crontab插件
+
+    'dashboard',        # 管理界面
+    'oauth',            # 认证中心
+    'people',           # 通讯录管理
+    'reminder',         # 提醒器
+    'cron',             # 定时任务(包含提醒服务、爬虫服务、签到服务、秒杀服务、备份服务、报表服务)
 ]
 
 MIDDLEWARE = [
@@ -116,3 +118,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# 定时任务
+CRONJOBS = [
+    ('*/5 * * * *', 'cron.reminder.birthday_reminder.check_birth')
+]
