@@ -14,6 +14,7 @@ COPY requirements.txt /usr/src/app/
 COPY . /usr/src/app
 
 RUN apt-get update && apt-get install -y \
+				rsyslog \ 
 				cron \
 				vim \
 				gcc \
@@ -22,6 +23,8 @@ RUN apt-get update && apt-get install -y \
 				sqlite3 \
 		--no-install-recommends && rm -rf /var/lib/apt/lists/*
 
+RUN rsyslogd
+RUN cron
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
