@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
-import re
 import time
-import codecs
 import random
 import hashlib
 import smtplib
 import requests
-import datetime
 from bs4 import BeautifulSoup
-from email import encoders
 from email.header import Header
 from email.mime.text import MIMEText
 from django.conf import settings
@@ -51,42 +47,6 @@ def sendGitCommitSMS(name, repo, phone=settings.ALIDAYU_PHONE):
     print(re.text)
 
 
-def sendEmail(
-        content, subject,
-        sender=settings.MAIL_USER, receivers=[settings.ADMIN_EMAIL]):
-    '''发送邮箱接口'''
-    message = MIMEText(content, 'plain', 'utf-8')
-    message['From'] = "\"%s\" <%s>" % (
-            Header(sender, 'utf-8'),
-            Header(sender, 'utf-8'))
-    message['To'] = Header('to', 'utf-8')
-    message['Subject'] = Header(subject, 'utf-8')
-
-    smtpObj = smtplib.SMTP()
-    smtpObj.connect(settings.MAIL_HOST)
-    smtpObj.login(settings.MAIL_USER, settings.MAIL_PASS)
-    smtpObj.sendmail(sender, receivers, message.as_string())
-    print('邮件发送成功')
-
-
-def generateBirthEmail(peoples):
-    '''生成生日提醒邮件内容'''
-    string = '亲，以下是最近快过生日的好友，别忘了送上祝福哟\n'
-    print(peoples)
-    for _i in range(7):
-        if len(peoples[_i]) == 0:
-            continue
-        if _i == 0:
-            string += '\n今天过生日的有: \n'
-        elif _i == 1:
-            string += '\n明天过生日的有: \n'
-        elif _i == 2:
-            string += '\n后天过生日的有: \n'
-        else:
-            string += '\n' + str(_i) + '天后过生日的有: \n'
-        for people in peoples[_i]:
-            string += str(people) + '\n'
-    return string
 
 
 def captureKuaidaili():
@@ -167,6 +127,3 @@ def captureKuaidaili():
             else:
                 page += 1
 
-
-if __name__ == '__main__':
-    sendEmail()
