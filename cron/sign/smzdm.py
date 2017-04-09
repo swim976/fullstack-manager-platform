@@ -2,12 +2,18 @@ import requests
 
 from django.conf import settings
 
+from cron.cron import Cron
 
-class Smzdm:
+
+class Smzdm(Cron):
     """
     什么值得买自动签到脚本
     """
+    symbol = 'SMZDM_SIGN'
+    description = '什么值得买签到脚本'
+
     def __init__(self):
+        super().__init__()
         self.session = requests.Session()
 
         self.open_site()

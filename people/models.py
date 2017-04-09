@@ -9,7 +9,9 @@ SEX_CHOICES = (
 
 
 class People(models.Model):
-    '''人力资源'''
+    """
+    人力资源
+    """
     name = models.CharField('姓名', max_length=10)
     birth_lunar = models.DateField('农历生日', null=True)
     birth_new = models.DateField('新历生日', null=True)

@@ -2,16 +2,23 @@ import datetime
 
 from django.db.models import Q
 from django.conf import settings
+
 from lunardate import LunarDate
+
+from cron.cron import Cron
 from people.models import People
 from service.email_service import send_email
 
 
-class Birth:
+class Birth(Cron):
     """
     用于生日的操作
     """
+    symbol = 'BIRTHDAY_REMINDER'
+    description = '好友生日提醒'
+
     def __init__(self):
+        super().__init__()
         self.check_birth()
 
     def check_birth(self):
