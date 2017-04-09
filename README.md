@@ -24,7 +24,10 @@
 [requests](https://github.com/kennethreitz/requests): http请求库
 
 ## Installation
-`pip3 install -r requirements.txt`
+```shell
+pip3 install -r requirements.txt
+
+```
 
 ## Documentation
 ## LICENSE

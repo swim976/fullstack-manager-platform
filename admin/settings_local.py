@@ -105,13 +105,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Chongqing'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -121,5 +121,9 @@ STATIC_URL = '/static/'
 
 # 定时任务
 CRONJOBS = [
-    ('*/5 * * * *', 'cron.reminder.birthday_reminder.check_birth')
+    ('* * 31 * *', 'cron.reminder.birthday.Birth'),
+    ('* * 31 * *', 'cron.sign.smzdm.Smzdm'),
+    ('* * 31 * *', 'cron.backup.database.Database'),
 ]
+
+BACKUP_DIR = '/data/backup/'
