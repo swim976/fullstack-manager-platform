@@ -2,7 +2,7 @@ FROM python:3.6
 
 # fullstack-manager-platform dockerfile
 # command: docker run -it --name admin --net host --add-host="mariadb:127.0.0.1" -p 8000:8000
- -v /c/Users/haofly/workspace/fullstack-manager-platform:/usr/src/app -d admin
+# -v /c/Users/haofly/workspace/fullstack-manager-platform:/usr/src/app -d admin
 # 不用挂载的方式就不能实时更新文件，md
 
 
