@@ -125,3 +125,5 @@ CRONJOBS = [
     ('0 1 * * *', 'cron.sign.smzdm.Smzdm'),
     ('0 5 * * *', 'cron.backup.database.Database'),
 ]
+
+BACKUP_DIR = '/data/backup/'
