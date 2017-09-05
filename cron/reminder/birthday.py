@@ -16,6 +16,7 @@ class Birth(Cron):
     """
     symbol = 'BIRTHDAY_REMINDER'
     description = '好友生日提醒'
+    CRONTAB_COMMENT = description
 
     def __init__(self):
         super().__init__()

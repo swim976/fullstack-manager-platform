@@ -11,6 +11,7 @@ class Smzdm(Cron):
     """
     symbol = 'SMZDM_SIGN'
     description = '什么值得买签到脚本'
+    CRONTAB_COMMENT = description
 
     def __init__(self):
         super().__init__()

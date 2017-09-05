@@ -8,6 +8,7 @@ from django.conf import settings
 class Database(Cron):
     symbol = 'BACKUP_DATABASE'
     description = '数据库备份'
+    CRONTAB_COMMENT = description
 
     def __init__(self):
         super().__init__()
