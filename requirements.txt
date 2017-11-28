@@ -1,6 +1,7 @@
-Django>=1.10.5
-django-crontab>=0.7.1
-lunardate>=0.1.5
-mysqlclient>=1.3.10
-requests>=2.13.0
-
+Django
+django-crontab
+lunardate
+mysqlclient
+requests
+pypinyin
+django-extensions
