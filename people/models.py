@@ -13,6 +13,7 @@ class People(models.Model):
     人力资源
     """
     name = models.CharField('姓名', max_length=10)
+    pinyin = models.CharField('拼音', max_length=50)
     birth_lunar = models.DateField('农历生日', null=True)
     birth_new = models.DateField('新历生日', null=True)
     sex = models.SmallIntegerField('性别', null=True, choices=SEX_CHOICES)
