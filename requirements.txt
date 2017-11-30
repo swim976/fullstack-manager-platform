@@ -1,7 +1,0 @@
-Django
-django-crontab
-lunardate
-mysqlclient
-requests
-pypinyin
-django-extensions
