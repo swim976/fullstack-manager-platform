@@ -1,9 +1,9 @@
-from django.conf.urls import include, url
 from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
-    url(r'^people/', include('people.urls', namespace='people')),
-    url(r'^oauth/', include('oauth.urls', namespace='oauth')),
+    path('admin/', admin.site.urls),
+    path('dashboard/', include('dashboard.urls')),
+    path('people/', include('people.urls')),
+    path('oauth/', include('oauth.urls')),
 ]

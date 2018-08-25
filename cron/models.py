@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import DO_NOTHING
 
 CONTENT_TYPE = (
     ('html', 'html'),
@@ -15,31 +16,6 @@ SITE_TYPE = (
     ('video', 'video'),
 )
 
-
-class Log(models.Model):
-    """
-    定时任务日志
-
-    CREATE TABLE `cron_log` (
-      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-      `symbol` varchar(50) NOT NULL DEFAULT '',
-      `successful` tinyint(1) NOT NULL,
-      `stdout` text NOT NULL,
-      `stderr` text NOT NULL,
-      `begin_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-      `end_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-      PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    """
-    symbol = models.CharField('定时任务标识', max_length=50)
-    stdout = models.TextField('标准输出')
-    stderr = models.TextField('错误输出')
-    successful = models.BooleanField('定时任务是否成功')
-    begin_at = models.DateTimeField('定时任务开始时间')
-    end_at = models.DateTimeField('定时任务结束时间')
-
-    def __str__(self):
-        return self.name + str(self.begin_at)
 
 
 class CrawlerTarget(models.Model):
@@ -84,7 +60,7 @@ class CrawlerLog(models.Model):
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     """
-    target = models.ForeignKey(CrawlerTarget)
+    target = models.ForeignKey(CrawlerTarget, on_delete=DO_NOTHING)
     url = models.CharField('访问过的url', max_length=500)
     title = models.CharField('网站标题', max_length=255)
     tag = models.CharField('该url在该网站的标识(例如uuid等)', max_length=255)
@@ -95,25 +71,3 @@ class CrawlerLog(models.Model):
 
     class Meta:
         db_table = 'cron_crawler_log'
-
-
-class CrawlerVideoLog(models.Model):
-    """
-    存储视频爬虫的额外信息
-
-    CREATE TABLE `cron_crawler_video_log` (
-      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-      `crawler_log_id` int(11) NOT NULL,
-      `title` varchar(255) NOT NULL DEFAULT '' COMMENT '视频标题',
-      `type` varchar(50) NOT NULL DEFAULT '' COMMENT '视频格式',
-      `duration` int(11) DEFAULT NULL COMMENT '视频时长',
-      PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    """
-    crawler_log = models.ForeignKey(CrawlerLog)
-    title = models.CharField('视频标题', max_length=255)
-    type = models.CharField('视频格式', choices=VIDEO_TYPE, max_length=50)
-    duration = models.IntegerField('视频时长，以分钟为单位把')
-
-    class Meta:
-        db_table = 'cron_crawler_video_log'
