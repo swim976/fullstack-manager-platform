@@ -122,15 +122,5 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 
-# Custom environment variables
-ENV = 'test'    # 通过环境类型选择独立环境变量
-
-from .settings_secret import *
-try:
-    custom_settings = __import__('settings_' + ENV, fromlist=['*'])
-    for var in dir(custom_settings):
-        locals()[var] = getattr(custom_settings, var)
-except ModuleNotFoundError as e:
-    pass
-
-
+# 读取不同的配置文件
+from .settings_test import *
