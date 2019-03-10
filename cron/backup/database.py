@@ -26,7 +26,7 @@ class Database(Cron):
 
         # 备份ali数据库
         command = 'mysqldump -u{user} -p{password} --databases -h{host} {backupdb} | gzip > {target}'.format(
-            user=settings.DATABASES['ali']['ALI_USER'],
+            user=settings.DATABASES['ali']['USER'],
             password=settings.DATABASES['ali']['PASSWORD'],
             host=settings.DATABASES['ali']['HOST'],
             backupdb=settings.BACKUP_DB_ALI,
