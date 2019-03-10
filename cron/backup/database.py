@@ -18,7 +18,7 @@ class Database(Cron):
             user=settings.DATABASES['default']['USER'],
             password=settings.DATABASES['default']['PASSWORD'],
             host=settings.DATABASES['default']['HOST'],
-            backupdb=settings.BACKUP_BACKUP_DB_NAS,
+            backupdb=settings.BACKUP_DB_NAS,
             target=settings.BACKUP_DIR + 'mysql/nas' + str(datetime.date.today()) + '.sql.gz'
         )
         re = subprocess.check_output(command, shell=True)
