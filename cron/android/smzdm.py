@@ -11,7 +11,6 @@ class Smzdm(Cron):
     CRONTAB_COMMENT = description
 
     def __init__(self):
-        print("ok")
         super().__init__()
         self.run()
 
