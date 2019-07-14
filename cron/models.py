@@ -2,69 +2,15 @@ from django.db import models
 from django.db.models import DO_NOTHING
 
 CONTENT_TYPE = (
-    ('html', 'html'),
-    ('video', 'video'),
-    ('javascript', 'javascript'),
-    ('css', 'css'),
+    ("html", "html"),
+    ("video", "video"),
+    ("javascript", "javascript"),
+    ("css", "css"),
 )
 
-VIDEO_TYPE = (
-    ('mp4', 'mp4'),
-)
+VIDEO_TYPE = (("mp4", "mp4"),)
 
-SITE_TYPE = (
-    ('video', 'video'),
-)
-
-class Log(models.Model):
-    """
-    定时任务日志
-
-    CREATE TABLE `cron_log` (
-      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-      `symbol` varchar(50) NOT NULL DEFAULT '',
-      `successful` tinyint(1) NOT NULL,
-      `stdout` text NOT NULL,
-      `stderr` text NOT NULL,
-      `begin_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-      `end_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-      PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    """
-    symbol = models.CharField('定时任务标识', max_length=50)
-    stdout = models.TextField('标准输出')
-    stderr = models.TextField('错误输出')
-    successful = models.BooleanField('定时任务是否成功')
-    begin_at = models.DateTimeField('定时任务开始时间')
-    end_at = models.DateTimeField('定时任务结束时间')
-
-    def __str__(self):
-        return self.name + str(self.begin_at)
-
-class Log(models.Model):
-    """
-    定时任务日志
-
-    CREATE TABLE `cron_log` (
-      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-      `symbol` varchar(50) NOT NULL DEFAULT '',
-      `successful` tinyint(1) NOT NULL,
-      `stdout` text NOT NULL,
-      `stderr` text NOT NULL,
-      `begin_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-      `end_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-      PRIMARY KEY (`id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    """
-    symbol = models.CharField('定时任务标识', max_length=50)
-    stdout = models.TextField('标准输出')
-    stderr = models.TextField('错误输出')
-    successful = models.BooleanField('定时任务是否成功')
-    begin_at = models.DateTimeField('定时任务开始时间')
-    end_at = models.DateTimeField('定时任务结束时间')
-
-    def __str__(self):
-        return self.name + str(self.begin_at)
+SITE_TYPE = (("video", "video"),)
 
 
 class Log(models.Model):
@@ -82,15 +28,16 @@ class Log(models.Model):
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     """
-    symbol = models.CharField('定时任务标识', max_length=50)
-    stdout = models.TextField('标准输出')
-    stderr = models.TextField('错误输出')
-    successful = models.BooleanField('定时任务是否成功')
-    begin_at = models.DateTimeField('定时任务开始时间')
-    end_at = models.DateTimeField('定时任务结束时间')
+
+    symbol = models.CharField("定时任务标识", max_length=50)
+    stdout = models.TextField("标准输出")
+    stderr = models.TextField("错误输出")
+    successful = models.BooleanField("定时任务是否成功")
+    begin_at = models.DateTimeField("定时任务开始时间")
+    end_at = models.DateTimeField("定时任务结束时间")
 
     def __str__(self):
-        return self.name + str(self.begin_at)
+        return self.symbol + str(self.begin_at)
 
 
 class CrawlerTarget(models.Model):
@@ -107,14 +54,15 @@ class CrawlerTarget(models.Model):
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     """
-    site = models.CharField('目标网站域名', max_length=255)
-    type = models.CharField('网站类型', choices=SITE_TYPE, max_length=10)
-    description = models.CharField('描述', max_length=255, default='')
-    depend_on_js = models.BooleanField('是否依赖于js的生成')
-    beta = models.TextField('要点(比如抓取方式)', default='')
+
+    site = models.CharField("目标网站域名", max_length=255)
+    type = models.CharField("网站类型", choices=SITE_TYPE, max_length=10)
+    description = models.CharField("描述", max_length=255, default="")
+    depend_on_js = models.BooleanField("是否依赖于js的生成")
+    beta = models.TextField("要点(比如抓取方式)", default="")
 
     class Meta:
-        db_table = 'cron_crawler_target'
+        db_table = "cron_crawler_target"
 
 
 class CrawlerLog(models.Model):
@@ -135,14 +83,15 @@ class CrawlerLog(models.Model):
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     """
+
     target = models.ForeignKey(CrawlerTarget, on_delete=DO_NOTHING)
-    url = models.CharField('访问过的url', max_length=500)
-    title = models.CharField('网站标题', max_length=255)
-    tag = models.CharField('该url在该网站的标识(例如uuid等)', max_length=255)
-    type = models.CharField('返回内容类型', choices=CONTENT_TYPE, max_length=50)
-    http_code = models.CharField('http状态码', null=True, max_length=3)
-    begin_at = models.DateTimeField('爬虫抓取时间')
-    end_at = models.DateTimeField('爬虫结束时间')
+    url = models.CharField("访问过的url", max_length=500)
+    title = models.CharField("网站标题", max_length=255)
+    tag = models.CharField("该url在该网站的标识(例如uuid等)", max_length=255)
+    type = models.CharField("返回内容类型", choices=CONTENT_TYPE, max_length=50)
+    http_code = models.CharField("http状态码", null=True, max_length=3)
+    begin_at = models.DateTimeField("爬虫抓取时间")
+    end_at = models.DateTimeField("爬虫结束时间")
 
     class Meta:
-        db_table = 'cron_crawler_log'
+        db_table = "cron_crawler_log"
